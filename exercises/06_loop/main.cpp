@@ -5,11 +5,20 @@
 // READ: 纯函数 <https://zh.wikipedia.org/wiki/%E7%BA%AF%E5%87%BD%E6%95%B0>
 static unsigned long long fibonacci(int i) {
     // TODO: 为缓存设置正确的初始值
-    static unsigned long long cache[96], cached;
-    // TODO: 设置正确的循环条件
-    for (; false; ++cached) {
-        cache[cached] = cache[cached - 1] + cache[cached - 2];
+    if (i < 0 || i >= 96) {
+        throw std::out_of_range("Index out of range");
     }
+    static unsigned long long cache[96] = {0,1};
+    static int cached = 2;
+    if (i < 2) {
+        return i;
+    }
+
+    // TODO: 设置正确的循环条件
+    for (int j = cached; j <= i; ++j) {
+        cache[j] = cache[j - 1] + cache[j - 2];
+    }
+    cached = i + 1;
     return cache[i];
 }
 
